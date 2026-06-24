@@ -6,6 +6,85 @@ Eleven battle-tested prompt templates for common research scenarios. Each templa
 
 ---
 
+## Prompt Engineering Best Practices
+
+**Source**: Pimenova et al. (2025) — developers report that prompt quality directly affects code quality. One interviewee advised: "how much would I need to tell, like, another developer…who is qualified and competent…but not a world expert?"
+
+### Role Setting
+
+Set the AI's role at the beginning of your prompt:
+- "You are a statistician with 10 years of experience in clinical trials"
+- "You are a bioinformatics specialist working with RNA-seq data"
+- "You are a machine learning engineer specializing in time-series forecasting"
+
+**Do NOT** set overly grandiose roles (e.g., "world's best programmer", "the ultimate coding expert"). This causes overconfidence and less careful code. One developer reported: "I put in my rules something along the line of being the best senior programmer…and the Agent stopped doing endpoints and session test and…acted like an arrogant know-it-all dev" (Pimenova et al., 2025).
+
+### Structured Prompt Template
+
+A good prompt for scientific code contains these sections:
+
+```
+ROLE: [domain expert role]
+
+TASK: [what to do — be specific]
+
+INPUT DATA:
+- Format: [CSV, FASTA, Excel, etc.]
+- Size: [rows × columns]
+- Key columns: [column names and types]
+- Known issues: [missing values, outliers, encoding problems]
+
+CONSTRAINTS:
+- [What the code MUST do]
+- [What the code MUST NOT do]
+- [Specific methods to use or avoid]
+
+OUTPUT:
+- [What files to create]
+- [What to print/log]
+- [Expected format and precision]
+
+VERIFICATION:
+- [How to check the result is correct]
+- [Expected range of output values]
+```
+
+### Avoid Ambiguity
+
+| Vague Prompt | Specific Prompt |
+|---|---|
+| "Optimize this code" | "Reduce runtime to under 10 seconds for n=100,000" |
+| "Handle missing values" | "Fill missing values in column_A with the median; raise an error if column_B has any NaN" |
+| "Make a plot" | "Create a violin plot with Set2 palette, 300 DPI, saved as SVG and TIFF" |
+| "Run a statistical test" | "Run Welch's t-test (scipy.stats.ttest_ind with equal_var=False) after confirming normality via Shapiro-Wilk" |
+| "Clean the data" | "Remove rows where protein_id is missing; flag (but do not remove) outliers beyond 4 SD" |
+
+### Iteration Strategy
+
+Do NOT try to get everything done in one prompt. Use this sequence:
+
+1. **Plan** (Step 2.5): "Analyze my data and recommend a statistical method. Do NOT write code yet."
+2. **Confirm**: Review the plan, adjust if needed.
+3. **Generate** (Step 3): "Now implement the plan. Follow these safety guards: [list guards]."
+4. **Verify** (Step 4): "Run the code and show me the output. Check for [specific issues]."
+5. **Debug** (if needed): "Line 42 throws [exact error]. Fix ONLY that line."
+
+### Context Window Management
+
+For long projects, manage what the AI can "see":
+
+- **Include**: The specific function you want modified, the error message, the data schema
+- **Exclude**: Unrelated code files, previous conversation turns about different topics
+- **Reset**: If the AI starts giving repetitive or confused suggestions, start a new conversation and paste only the essential context
+
+One developer's strategy: "I ended up building a small tool for myself. It generates a code map of the whole project…so AI tools can actually follow what's going on" (Pimenova et al., 2025).
+
+---
+
+> **Workflow note**: These templates are designed for **Step 3** (code generation). Before using any template, complete **Step 2.5** (Analysis Plan Review) first — output a plan, get user confirmation, then use the template to generate code. See [SKILL.md](SKILL.md#step-25-analysis-plan-review) for details.
+
+---
+
 ## 1. DATA_CLEANING — Data Cleaning & Preprocessing
 
 **When to use**: Handling missing values, outliers, normalization, deduplication.

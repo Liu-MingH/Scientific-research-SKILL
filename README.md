@@ -3,7 +3,7 @@
 A structured QoderWork skill for generating rigorous, publication-ready scientific code through AI-assisted natural language prompts. Covers the full research lifecycle: data cleaning, statistical testing, visualization, ML/DL modeling, CS benchmarking, and code review.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)]()
 [![Templates](https://img.shields.io/badge/templates-11-green.svg)]()
 
 ## What Is This?
@@ -23,15 +23,15 @@ A [Nature investigation](https://doi.org/10.1038/d41586-026-01477-w) found that 
 - **Self-testing theater**: AI writes tests for its own code that "always pass"
 - **Code inflation**: 400-line scripts balloon to 3000 lines, becoming unreadable by both human and AI
 
-This framework prevents these failure modes through structured prompts, mandatory safety guards, and verification protocols.
+This framework prevents these failure modes through structured prompts, mandatory safety guards, verification protocols, and collaboration strategies (v1.3.0: added conversation management, debugging protocol, version control guidance, and anti-sycophancy checks based on Pimenova et al. 2025 and Nature 653:348-350).
 
 ## What's Inside
 
 ```
 science-vibecoding/
-├── SKILL.md                     # Core workflow & safety principles
-├── prompt-templates.md          # 11 battle-tested prompt templates
-├── risk-checklist.md            # Pre/post-execution verification
+├── SKILL.md                     # Core workflow & safety principles (6 guards, 8 principles)
+├── prompt-templates.md          # 11 prompt templates + prompt engineering guide
+├── risk-checklist.md            # Pre/post-execution verification (incl. anti-sycophancy & maintainability)
 ├── vibe-blueprint-template.md   # Reproducibility documentation
 ├── examples/                    # End-to-end example with all safety guards
 ├── README.md                    # This file
@@ -56,13 +56,14 @@ science-vibecoding/
 
 ### Safety System
 
-Every generated code includes five mandatory safety guards:
+Every generated code includes six mandatory safety guards:
 
 1. **Explicit Method Declaration** — runtime print of the exact function being called
 2. **No Silent Defaults** — unspecified parameters raise errors instead of using library defaults
 3. **Input Validation Block** — data shape, type, and completeness checks before any analysis
 4. **No AI Self-Testing** — tests only generated under explicit `UNIT_TESTING` scenario with adversarial cases
 5. **Comprehensive Comments** — every function documents what, why, and assumptions
+6. **Change Audit** — AI must report all modifications, deletions, and overwrites; no silent changes (v1.3.0)
 
 ### Vibe Blueprint
 
@@ -106,9 +107,10 @@ Clean my proteomics dataset (data.csv):
 
 The skill will automatically:
 1. Select the `DATA_CLEANING` template
-2. Add safety guards (no silent defaults, input validation, action logging)
-3. Generate verified, commented, publication-ready code
-4. Prompt you to create a Vibe Blueprint for reproducibility
+2. **Output an analysis plan** for your confirmation before writing any code (Step 2.5)
+3. Add safety guards (no silent defaults, input validation, action logging, change audit)
+4. Generate verified, commented, publication-ready code
+5. Prompt you to create a Vibe Blueprint for reproducibility
 
 ## Evidence Base
 

@@ -31,6 +31,22 @@ AI tends to "helpfully" fix data problems without telling you.
 - [ ] Check if the code modifies column names, dtypes, or encodings without instruction
 - [ ] Verify row counts before and after each processing step
 
+### 2a. Anti-Sycophancy Check (反谄媚检查)
+
+**Source**: Nature 653:348-350 (2026) — "Vibed code might, for example, make up missing data to help an algorithm run, or even smooth a graph to make it look as expected." Morey's case: AI chose a simpler test that gives "roughly the right results."
+
+AI has a tendency to "please" the user by making results look good. Check for:
+
+- [ ] Search for `fillna`, `interpolate`, `smooth`, `round` — are there data modifications you did NOT request?
+- [ ] Check output p-values: are they "conveniently" just below 0.05? (suspicious)
+- [ ] Check figures: are they "too clean" — no noise, no outliers, no scatter?
+- [ ] Check row counts before and after processing — did AI silently delete rows?
+- [ ] If results "perfectly support your hypothesis", be extra vigilant — AI may be catering to your expectations (AI可能在迎合你的预期)
+- [ ] Check if AI chose a simpler/less powerful test than you requested (the Morey pattern)
+- [ ] Verify that effect sizes and confidence intervals are in plausible ranges for your field
+
+**Red flag**: If the code runs without errors on the first try AND the results look perfect, STOP and review carefully. Complex analysis rarely works perfectly on the first attempt (Pimenova et al., 2025).
+
 ### 3. Default Parameter Trap
 
 Libraries have defaults. AI often doesn't override them.
@@ -94,9 +110,25 @@ Libraries have defaults. AI often doesn't override them.
 
 ---
 
+### 7. Maintainability Check (可维护性检查)
+
+**Source**: Nature 653:348-350 (2026), Meyer — "trying to update or maintain it in the future might prove problematic."
+
+- [ ] Is the code modular? (Can you change one function without affecting others?)
+- [ ] Are dependencies pinned with versions? (`requirements.txt` or `environment.yml`)
+- [ ] If the code depends on a specific library version, is this documented?
+- [ ] Can another person understand and run this code 6 months from now?
+- [ ] If you need to change the algorithm, do you only need to modify one function — or rewrite the entire file?
+- [ ] Are there `TODO` or `FIXME` comments that need follow-up?
+- [ ] Is the code under version control with meaningful commit messages?
+
+**Risk marker**: If the code exceeds 500 lines and is not modular (all logic in one file), mark as HIGH RISK for maintainability. Split into modules before publication.
+
+---
+
 ## Publication Readiness
 
-### 7. Code Quality
+### 8. Code Quality
 
 - [ ] No hardcoded paths, passwords, or API keys
 - [ ] No `print()` statements used for debugging (use `logging` instead)
@@ -104,14 +136,14 @@ Libraries have defaults. AI often doesn't override them.
 - [ ] No commented-out code blocks
 - [ ] No `TODO` or `FIXME` comments remaining
 
-### 8. Documentation
+### 9. Documentation
 
 - [ ] README explains how to run the code (dependencies, data requirements, expected output)
 - [ ] All functions have docstrings with: purpose, parameters, return values, assumptions
 - [ ] Key algorithmic choices are explained in comments
 - [ ] License file is included (MIT, Apache 2.0, or as required by your institution)
 
-### 9. Journal Compliance
+### 10. Journal Compliance
 
 - [ ] Code format matches journal's supplementary material requirements
 - [ ] Figure output meets DPI and format specifications
@@ -158,7 +190,7 @@ These are documented cases where AI used a different method than requested:
 
 ## Deep Learning Specific Checks
 
-### 10. GPU Reproducibility
+### 11. GPU Reproducibility
 
 - [ ] Are ALL random seeds set before any tensor operation? (Must include: `random.seed`, `np.random.seed`, `torch.manual_seed`, `torch.cuda.manual_seed_all`)
 - [ ] Is `torch.backends.cudnn.deterministic = True` set? (cuDNN non-deterministic convolution algorithms will produce different results per run)
@@ -167,7 +199,7 @@ These are documented cases where AI used a different method than requested:
 - [ ] Run the training script twice with identical seeds — are the loss curves pixel-perfect identical?
 - [ ] For multi-GPU: are seeds broadcast to every process? Does `DistributedSampler` use the same seed?
 
-### 11. Training Loop Integrity
+### 12. Training Loop Integrity
 
 - [ ] Is `model.train()` at the TOP of the training loop, `model.eval()` before validation?
 - [ ] Is `optimizer.zero_grad()` at the TOP of each step? (Bottom placement causes gradient accumulation)
@@ -177,7 +209,7 @@ These are documented cases where AI used a different method than requested:
 - [ ] Is the learning rate scheduler stepped AFTER the optimizer (not before) when stepping per-batch?
 - [ ] Print `[MODE] train` / `[MODE] eval` at the start of each epoch for audit trail
 
-### 12. Model Architecture Documentation
+### 13. Model Architecture Documentation
 
 - [ ] Does the code print total parameter count? (`sum(p.numel() for p in model.parameters())`)
 - [ ] Does it print trainable vs. frozen parameter counts?
@@ -185,7 +217,7 @@ These are documented cases where AI used a different method than requested:
 - [ ] Is the input/output shape documented for every module?
 - [ ] Are weight initialization methods explicitly specified (not left to library defaults)?
 
-### 13. Compute Environment
+### 14. Compute Environment
 
 - [ ] Are GPU model, CUDA version, cuDNN version, and PyTorch/TensorFlow version printed at startup?
 - [ ] Is total GPU memory reported (`torch.cuda.get_device_properties`)?
