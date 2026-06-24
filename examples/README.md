@@ -4,7 +4,7 @@ This example demonstrates the complete Science Vibe Coding workflow applied to a
 
 ## What This Example Demonstrates
 
-The `end_to_end_example.py` script implements the **Standard Analysis Pipeline** (DATA_CLEANING → STAT_TESTING → VISUALIZATION) with all five mandatory safety guards:
+The `end_to_end_example.py` script implements the **Standard Analysis Pipeline** (DATA_CLEANING → STAT_TESTING → VISUALIZATION) with all six mandatory safety guards:
 
 | Guard | What It Protects Against | Where to Look |
 |-------|-------------------------|---------------|
@@ -13,6 +13,7 @@ The `end_to_end_example.py` script implements the **Standard Analysis Pipeline**
 | **Guard 3: Input Validation** | Running analysis on corrupted or unexpected data | Every function entry point begins with an input validation block checking shape, types, and missing values |
 | **Guard 4: No AI Self-Testing** | Self-generated tests that "always pass" (Meyer, 2026) | The script contains no pytest functions or auto-generated test suites — only human-verifiable sanity checks |
 | **Guard 5: Comprehensive Comments** | Code that runs but cannot be explained to a reviewer | Every function has Google-style docstrings; every non-trivial block has comments explaining what, why, and assumptions |
+| **Guard 6: Change Audit** | AI secretly modifying or deleting code (Pimenova, 2025) | All modifications are reported; no silent changes to existing code |
 
 The example also demonstrates the **FILE handoff pattern** for multi-stage pipelines: each stage writes output to a timestamped file, and the next stage reads it back with explicit `[CHAIN]` log messages confirming data integrity.
 

@@ -1,6 +1,6 @@
 ---
 name: science-vibecoding
-description: Generate rigorous, publication-ready code for scientific research through structured AI-assisted prompts (vibe coding). Covers data cleaning, statistical testing, visualization, ML modeling (sklearn + deep learning), format conversion, math modeling, text analysis, code review prep, DL training, and CS benchmarking. Use when the user asks to write scientific code, analyze research data, create publication figures, run statistical tests, build ML/DL pipelines, train neural networks, benchmark algorithms, or prepare research code for peer review. Grounded in Nature 653:348-350 (2026), Pimenova et al. arXiv:2509.12491 (2025), and Meyer J. Proteome Res. (2026) best practices. v1.3.0 adds: Guard 6 (Change Audit), Step 2.5 (Analysis Plan Review), Principle 8 (Small Steps), Version Control, Debugging Protocol, Code Review Strategy, Cost Awareness, Context Provision, Anti-Sycophancy Check, Maintainability Check, and Prompt Engineering Guide.
+description: Structured AI-assisted scientific code generation. 6 safety guards, 8 principles, 11 prompt templates. Grounded in Nature (2026).
 version: 1.3.0
 ---
 
