@@ -34,17 +34,17 @@ fi
 echo "Downloaded SKILL.md ($(wc -c < "$TMPFILE") bytes)"
 echo ""
 
-# Detect and install — use the first match only
+# Detect and install — project-local indicators take priority over global commands
 INSTALLED=0
 
-if [ -d "$TARGET_DIR/.claude" ] || command -v claude &>/dev/null; then
-    cp "$TMPFILE" "$TARGET_DIR/CLAUDE.md"
-    echo "✅ Installed as CLAUDE.md (Claude Code)"
-    INSTALLED=1
-
-elif [ -d "$TARGET_DIR/.cursor" ] || [ -f "$TARGET_DIR/.cursorrules" ]; then
+if [ -d "$TARGET_DIR/.cursor" ] || [ -f "$TARGET_DIR/.cursorrules" ]; then
     cp "$TMPFILE" "$TARGET_DIR/.cursorrules"
     echo "✅ Installed as .cursorrules (Cursor)"
+    INSTALLED=1
+
+elif [ -d "$TARGET_DIR/.claude" ]; then
+    cp "$TMPFILE" "$TARGET_DIR/CLAUDE.md"
+    echo "✅ Installed as CLAUDE.md (Claude Code)"
     INSTALLED=1
 
 elif [ -d "$TARGET_DIR/.codeium" ] || [ -f "$TARGET_DIR/.windsurfrules" ]; then
@@ -52,16 +52,29 @@ elif [ -d "$TARGET_DIR/.codeium" ] || [ -f "$TARGET_DIR/.windsurfrules" ]; then
     echo "✅ Installed as .windsurfrules (Windsurf)"
     INSTALLED=1
 
-elif command -v gh &>/dev/null; then
-    mkdir -p "$TARGET_DIR/.github"
-    cp "$TMPFILE" "$TARGET_DIR/.github/copilot-instructions.md"
-    echo "✅ Installed as .github/copilot-instructions.md (Copilot)"
-    INSTALLED=1
-
 elif [ -f "$TARGET_DIR/.clinerules" ]; then
     cp "$TMPFILE" "$TARGET_DIR/.clinerules"
     echo "✅ Installed as .clinerules (Cline)"
     INSTALLED=1
+
+elif [ -d "$TARGET_DIR/.github" ]; then
+    cp "$TMPFILE" "$TARGET_DIR/.github/copilot-instructions.md"
+    echo "✅ Installed as .github/copilot-instructions.md (Copilot)"
+    INSTALLED=1
+fi
+
+# Fallback: no project-local indicator found, try global commands
+if [ "$INSTALLED" -eq 0 ]; then
+    if command -v claude &>/dev/null; then
+        cp "$TMPFILE" "$TARGET_DIR/CLAUDE.md"
+        echo "✅ Installed as CLAUDE.md (Claude Code)"
+        INSTALLED=1
+    elif command -v gh &>/dev/null; then
+        mkdir -p "$TARGET_DIR/.github"
+        cp "$TMPFILE" "$TARGET_DIR/.github/copilot-instructions.md"
+        echo "✅ Installed as .github/copilot-instructions.md (Copilot)"
+        INSTALLED=1
+    fi
 fi
 
 # Fallback
