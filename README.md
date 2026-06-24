@@ -1,23 +1,174 @@
-scientific-research 是一个科研辅助 Skill，致力于解决 AI 辅助科研中最根本的可信性问题：知识真实、边界清晰、创新有据、步步可查。
+# Scientific Research SKILL — Science Vibe Coding
 
-传统 AI 在科研场景中存在三大顽疾——编造文献数据、用模糊措辞掩盖无知、被现有范式束缚无法提出真正创新。本 Skill 以五大核心原则从根本上对抗这些问题。
+A structured QoderWork skill for generating rigorous, publication-ready scientific code through AI-assisted natural language prompts. Covers the full research lifecycle: data cleaning, statistical testing, visualization, ML/DL modeling, CS benchmarking, and code review.
 
-① 深度联网搜索：引用任何数值、论文、方法、数据集之前，强制通过联网检索核实真实存在，并提供可溯源链接，关键事实要求两个独立来源交叉验证，彻底杜绝知识幻觉。
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)]()
+[![Templates](https://img.shields.io/badge/templates-11-green.svg)]()
 
-② 实事求是：已知的直接回答，不确定的必须说明。严格区分"有据可查的结论"与"超出知识范围的猜测"，绝不用"可能是..."包装无知，遇到知识边界主动给出替代方案。
+## What Is This?
 
-③ 打破局限，大开脑洞：建立"铁律 vs 创新空间"二分框架，系统区分不可动摇的物理定律、伦理红线，与可以质疑的领域惯例、默认假设、评价习惯。配套五步创新识别法与创新方向矩阵，帮助研究者找到真正有价值的突破口。
+"Vibe coding" — a term coined by OpenAI co-founder Andrej Karpathy — describes a programming paradigm where users interact with AI through natural language, letting the AI handle code generation while focusing on outcomes.
 
-④ 流程树拆解：收到科研任务后，不直接执行，而是先将大课题拆解为有层级的可视化流程树，等待用户审阅、修改、确认后才逐节点推进，保证研究方向始终在用户掌控之中。
+This skill brings structure and rigor to vibe coding for **scientific research**. It encodes best practices from a [Nature article](https://doi.org/10.1038/d41586-026-01477-w) (Jones, 2026) and validated case studies across proteomics, climate science, molecular biology, and statistics.
 
-⑤ 强制验证协议：每个流程节点完成后，必须通过五层检查——结果完整性、逻辑一致性、因果推断（排除数据泄露/过拟合等混淆因子）、代码 Bug 排查、结论规范性。全部通过才推进下一步，发现问题立即返回修复。
+**Core principle**: AI-generated scientific code is an *untrusted draft* — it must be verified, not just executed.
 
-本 Skill 适用于文献综述、实验设计、数据分析、模型构建、论文写作等一切科学研究场景，是每一位认真对待研究质量的人的得力助手。
-本 Skill 在运行时严格禁止以下行为：
+## Why It Exists
 
-- ❌ 未经联网搜索直接引用具体论文标题、作者、年份
-- ❌ 编造任何不确定的数值或结论
-- ❌ 跳过流程树确认直接开始执行
-- ❌ 跳过强制验证协议推进下一步
-- ❌ 结果异常好时不进行 Bug 排查
-- ❌ 用模糊措辞（"可能是..."）掩盖知识盲区
+A [Nature investigation](https://doi.org/10.1038/d41586-026-01477-w) found that while AI coding tools dramatically accelerate research (up to 75% productivity increase), they introduce subtle, dangerous errors:
+
+- **Method substitution**: AI runs a z-test when you asked for a t-test, but labels the output as a t-test
+- **Silent data modification**: AI "helpfully" imputes missing values or smooths curves without telling you
+- **Self-testing theater**: AI writes tests for its own code that "always pass"
+- **Code inflation**: 400-line scripts balloon to 3000 lines, becoming unreadable by both human and AI
+
+This framework prevents these failure modes through structured prompts, mandatory safety guards, and verification protocols.
+
+## What's Inside
+
+```
+science-vibecoding/
+├── SKILL.md                     # Core workflow & safety principles
+├── prompt-templates.md          # 11 battle-tested prompt templates
+├── risk-checklist.md            # Pre/post-execution verification
+├── vibe-blueprint-template.md   # Reproducibility documentation
+├── examples/                    # End-to-end example with all safety guards
+├── README.md                    # This file
+└── LICENSE                      # MIT License
+```
+
+### Prompt Templates (11 Scientific Scenarios)
+
+| # | Scenario | Primary Risk Guard |
+|---|----------|-------------------|
+| 1 | Data Cleaning & Preprocessing | Prevents unauthorized imputation methods |
+| 2 | Statistical Hypothesis Testing | Prevents silent method substitution (the "Morey Test") |
+| 3 | Publication-Quality Visualization | Enforces colorblind-safe palettes & journal DPI |
+| 4 | Cross-Software Format Conversion | Detects Excel gene-name conversion artifacts |
+| 5 | ML Model Training | Mandates k-fold CV, prevents data leakage |
+| 6 | Anti-Lazy Unit Testing | Forces adversarial edge cases (60%+ edge coverage) |
+| 7 | Mathematical Modeling & Simulation | Requires named parameters with units, stability checks |
+| 8 | Text Mining & Extraction | Handles encoding fallbacks, reconciliation logging |
+| 9 | Code Review for Publication | Zero-logic-change constraint during refactoring |
+| 10 | Deep Learning Training | Full GPU reproducibility suite, train/eval mode guards, gradient integrity checks |
+| 11 | CS Algorithm Benchmarking | Multi-scale timing, correctness verification, scaling behavior analysis |
+
+### Safety System
+
+Every generated code includes five mandatory safety guards:
+
+1. **Explicit Method Declaration** — runtime print of the exact function being called
+2. **No Silent Defaults** — unspecified parameters raise errors instead of using library defaults
+3. **Input Validation Block** — data shape, type, and completeness checks before any analysis
+4. **No AI Self-Testing** — tests only generated under explicit `UNIT_TESTING` scenario with adversarial cases
+5. **Comprehensive Comments** — every function documents what, why, and assumptions
+
+### Vibe Blueprint
+
+Based on Meyer's (2026) reproducibility framework, every session generates a `VIBE_BLUEPRINT.md` documenting: exact prompts used, AI model version, all parameters, verification results, cost/time analysis, and known limitations.
+
+## Installation
+
+### As a QoderWork Skill
+
+Copy the `science-vibecoding` directory to your skills folder:
+
+```bash
+# QoderWork / QoderWork CN — install via .skill file
+# Download Scientific-research-SKILL.skill from Releases, then drag-and-drop into QoderWork
+
+# Or manual install:
+# macOS / Linux
+cp -r science-vibecoding ~/.qoderwork/skills/
+
+# Windows (QoderWork CN)
+xcopy science-vibecoding %USERPROFILE%\.qoderworkcn\skills\science-vibecoding /E /I
+```
+
+The skill will be automatically discovered when you ask for scientific code generation, data analysis, statistical testing, or research code preparation.
+
+### Standalone Use
+
+You can also use the prompt templates directly with any AI coding assistant (ChatGPT, Claude, Copilot, Cursor, etc.). Just copy the relevant template from `prompt-templates.md`, fill in the `[bracketed placeholders]`, and paste it as your prompt.
+
+## Quick Start
+
+Tell your AI assistant:
+
+```
+Clean my proteomics dataset (data.csv):
+- Delete rows with missing protein IDs
+- Impute intensity values using KNN (k=5)
+- Flag outliers using IQR method
+- Log every action
+```
+
+The skill will automatically:
+1. Select the `DATA_CLEANING` template
+2. Add safety guards (no silent defaults, input validation, action logging)
+3. Generate verified, commented, publication-ready code
+4. Prompt you to create a Vibe Blueprint for reproducibility
+
+## Evidence Base
+
+This framework is grounded in peer-reviewed research and documented failure cases:
+
+| Source | Key Finding |
+|--------|------------|
+| [Nature 653:348-350](https://doi.org/10.1038/d41586-026-01477-w) | 90%+ developers use AI coding; AI accuracy on benchmarks is ~71% |
+| [Meyer, J. Proteome Res. 2026](https://doi.org/10.1021/acs.jproteome.5c00984) | 4 prompts, 10 min, $1.96 → 1400 lines of verified proteomics code |
+| [Ziemann et al., Genome Biol. 2016](https://doi.org/10.1186/s13059-016-1044-7) | 20% of genomics papers had Excel gene-name errors |
+| [Pimenova et al., arXiv 2025](https://doi.org/10.48550/arXiv.2509.12491) | 190K words analyzed; identified 13 pain points and 28 best practices |
+
+## Who Should Use This
+
+- **Researchers** who use AI to generate analysis code but worry about correctness
+- **Lab PIs** who want standardized, reviewable code from their team's AI-assisted workflows
+- **Bioinformaticians** building data pipelines with AI assistance
+- **Statisticians** who want guardrails against AI method substitution
+- **Graduate students** learning to combine AI tools with rigorous scientific practice
+
+## Who Should NOT Rely on This Alone
+
+- Researchers who cannot explain what the generated code does (see Principle 1)
+- Clinical or regulatory submissions without independent validation
+- Production systems without professional software engineering review
+
+## Contributing
+
+Contributions are welcome! Areas where we'd love input:
+
+- **New scenario templates** for fields not yet covered (e.g., genomics pipelines, geospatial analysis, neuroscience signal processing)
+- **Failure case studies** with documented AI errors and how they were caught
+- **Language-specific adaptations** (R, MATLAB, Julia templates)
+- **Journal-specific compliance checklists** for code supplementary materials
+
+Please open an issue or pull request.
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
+
+## Citation
+
+If you use this framework in your research, please cite:
+
+```bibtex
+@misc{science-vibecoding-2026,
+  title  = {Science Vibe Coding: A Structured Framework for AI-Assisted Scientific Code Generation},
+  author = {Liu-MingH},
+  year   = {2026},
+  url    = {https://github.com/Liu-MingH/Scientific-research-SKILL},
+  note   = {Based on best practices from Nature 653:348-350 (2026)}
+}
+```
+
+## Acknowledgments
+
+This framework synthesizes insights from:
+- Nicola Jones's reporting in Nature (2026)
+- Jesse Meyer's proteomics vibe coding study (J. Proteome Res., 2026)
+- Veronica Pimenova et al.'s qualitative study of vibe coding practices (arXiv, 2025)
+- Mark Ziemann et al.'s gene name error research (Genome Biol., 2016)
+- The scientists who shared their experiences: Zeke Hausfather, Rosemarie Wilton, Tim Hobbs, Manuel Corpas, and Richard Morey

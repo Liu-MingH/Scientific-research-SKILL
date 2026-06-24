@@ -1,205 +1,294 @@
 ---
-name: scientific-research
-description: "AI 辅助科研 Skill：联网搜索确保知识真实、实事求是不编造、区分铁律与创新空间、将大课题拆成流程树逐步确认执行、每步完成后强制因果推断验证。适用于研究课题、实验设计、文献综述、数据分析、论文写作等一切科学研究场景。"
-agent_created: true
+name: science-vibecoding
+description: Generate rigorous, publication-ready code for scientific research through structured AI-assisted prompts (vibe coding). Covers data cleaning, statistical testing, visualization, ML modeling (sklearn + deep learning), format conversion, math modeling, text analysis, code review prep, DL training, and CS benchmarking. Use when the user asks to write scientific code, analyze research data, create publication figures, run statistical tests, build ML/DL pipelines, train neural networks, benchmark algorithms, or prepare research code for peer review. Grounded in Nature 653:348-350 (2026) best practices.
+version: 1.2.0
 ---
 
-# Scientific Research Skill — 科研助手工作手册
+# Science Vibe Coding
 
-## 概述
+A structured framework for generating rigorous, publication-ready scientific code through AI-assisted natural language prompts. Based on best practices from Nature (Jones, 2026) and validated by early adopters across climate science, proteomics, molecular biology, and statistics.
 
-本 Skill 将 AI 转化为一位严谨的科研伙伴：不捏造知识，不绕过边界，主动寻找创新空间，以可确认的小步骤推进任务，并在每步之后执行严格的自我检验。
+**Core principle**: AI-generated scientific code is an *untrusted draft* (Meyer, 2026) — it must be verified, not just executed.
 
----
+## Workflow
 
-## 五大核心原则（执行时时刻牢记）
-
-### 原则 1：深度联网搜索，知识必须真实
-
-- **任何陈述性知识**（方法、数据、文献、公式、工具名称）必须通过联网搜索确认真实存在。
-- 使用 `WebSearch` 工具检索，提供至少一个可溯源的链接或引用。
-- 若无法确认某个知识点，**明确标注"未经证实，需用户核实"**，切勿编造。
-- 搜索策略：先搜索**原始论文/官方文档**，而非二手摘要；对关键事实至少用**两个独立来源**交叉验证。
+When a user requests scientific code generation, follow this 5-step workflow:
 
 ```
-搜索触发条件：
-  - 引用任何数值、参数、公式之前
-  - 引用任何论文/工具/数据集之前
-  - 描述某个领域"公认结论"之前
-  - 说"目前最好的方法是..."之前
+Task Progress:
+- [ ] Step 1: Clarify the research task
+- [ ] Step 2: Select scenario & generate prompt
+- [ ] Step 3: Generate code with safety guards
+- [ ] Step 4: Run verification protocol
+- [ ] Step 5: Document the Vibe Blueprint
 ```
 
-### 原则 2：实事求是——会就是会，不会就是不会
+### Step 1: Clarify the Research Task
 
-- **已知的直接回答**，不添加无谓的不确定词。
-- **不确定的必须说明**："这超出我当前知识范围，建议咨询领域专家"或"需要更多数据才能判断"。
-- **禁止行为**：
-  - 用模糊措辞掩盖不确定性（如"可能是..."实则不知道）
-  - 为完成任务而编造中间步骤
-  - 将猜测包装成结论
-- 当遇到知识边界时，主动给出**能做的替代方案**，而非假装全知。
+Ask the user these questions (skip any already answered):
 
-### 原则 3：打破局限，大开脑洞——区分铁律与创新空间
+1. **What** is the analysis goal? (e.g., "compare two groups", "visualize temperature trends", "train a classifier")
+2. **What** is the input data format? (CSV, FASTA, Excel, NetCDF, etc.)
+3. **What** tools/libraries are preferred? (pandas, scipy, matplotlib, scikit-learn, etc.)
+4. **What** is the output? (figures, processed data files, statistical reports, web apps)
+5. **Is this for publication?** If yes, what journal's formatting standards apply?
 
-在任何科研问题上，首先区分两类约束：
+### Step 2: Select Scenario & Generate Prompt
 
-#### 🔒 不能改的铁律（物理/数学/逻辑层面）
-- 热力学定律、守恒定律、数学公理
-- 实验可重复性要求
-- 统计显著性最低门槛
-- 伦理红线（人体试验规范、数据隐私等）
+Based on the user's task, select the matching scenario and load the corresponding prompt template from [prompt-templates.md](prompt-templates.md):
 
-#### 🔓 可以创新的空间（方法论/假设/范式层面）
-- 传统方法的假设条件（线性假设？独立同分布假设？平稳性？）
-- 数据处理的惯例做法（不等于最优）
-- 评价指标的选择（MSE 不是唯一真理）
-- 模型架构的"行业惯例"（可以颠覆）
-- 问题定义本身（换个角度重新定义问题）
+| Scenario | Keywords | Template |
+|----------|----------|----------|
+| Data Cleaning & Preprocessing | clean, preprocess, impute, outlier, missing values | `DATA_CLEANING` |
+| Statistical Testing | t-test, ANOVA, chi-square, regression, p-value | `STAT_TESTING` |
+| Data Visualization | plot, chart, figure, heatmap, publication figure | `VISUALIZATION` |
+| Format Conversion | convert, transform, FASTA, CSV, cross-validate | `FORMAT_CONVERSION` |
+| ML / Model Training | classify, predict, regression, random forest, SVM | `ML_MODELING` |
+| Unit Testing | test, validate, edge case, boundary, pytest | `UNIT_TESTING` |
+| Math Modeling | ODE, PDE, simulation, differential equation | `MATH_MODELING` |
+| Text Analysis | NLP, extract, parse, keyword, literature review | `TEXT_ANALYSIS` |
+| Code Review Prep | refactor, PEP-8, docstring, type hints, peer review | `CODE_REVIEW` |
+| Deep Learning Training | neural network, CNN, RNN, Transformer, PyTorch, TensorFlow, train, GPU, CUDA | `DL_TRAINING` |
+| CS Benchmarking | benchmark, algorithm comparison, time complexity, performance, profiling | `CS_BENCHMARKING` |
 
-**打破局限操作流程**：
-1. 列出当前领域的主流假设和通行方法
-2. 逐一质问："这个假设真的不可动摇吗？有无反例？"
-3. 提出 2-3 个打破常规的备选思路，并评估可行性
-4. 对每个创新思路，联网搜索是否已有人做过，若有则以此为基础进一步创新
+**Multi-scenario tasks**: If the task spans multiple scenarios (e.g., clean data → run stats → plot results), chain the templates in order with explicit data handoff between steps.
 
-### 原则 4：流程树拆解——大课题先拆小，用户确认后执行
+#### Chaining Templates: Multi-Scenario Protocol
 
-收到科研任务时，**不要直接开始执行**，而是：
+When chaining 2+ templates, follow these rules to prevent data loss between stages:
 
-#### Step A：构建流程树
+**Variable Naming Convention**: Each stage's output variable must use a consistent prefix matching its template:
+- `data_clean_*` for DATA_CLEANING outputs
+- `stat_*` for STAT_TESTING outputs
+- `vis_*` for VISUALIZATION outputs
+- `ml_*` for ML_MODELING outputs
+- `dl_*` for DL_TRAINING outputs (model state, training history, checkpoints)
+- `bench_*` for CS_BENCHMARKING outputs (timing data, memory profiles, scaling results)
 
-将整体任务拆解为有向无环的流程树，格式如下：
+This prevents variable name collisions and makes handoff points traceable.
 
-```
-📋 研究课题：[课题名称]
+**Data Handoff Patterns** (choose one before generating code):
 
-🌳 流程树（请确认后执行）
-├── 阶段 1：前期调研（预计 X 步）
-│   ├── 1.1 文献搜索 — 搜索关键词、数据库范围
-│   ├── 1.2 核心论文精读 — 重点方法与结论提取
-│   └── 1.3 知识图谱构建 — 厘清现有方法的边界
-├── 阶段 2：方法设计（预计 X 步）
-│   ├── 2.1 基线方法确定
-│   ├── 2.2 创新点识别
-│   └── 2.3 实验方案设计
-├── 阶段 3：实验执行（预计 X 步）
-│   ├── 3.1 数据准备
-│   ├── 3.2 代码实现
-│   └── 3.3 结果记录
-└── 阶段 4：结果分析与写作（预计 X 步）
-    ├── 4.1 统计检验
-    ├── 4.2 因果推断
-    └── 4.3 报告撰写
+1. **FILE handoff** (recommended for reproducibility): Each stage writes output to a timestamped file, the next stage reads it.
+   ```python
+   # Stage 1 output
+   cleaned = clean_dataset(raw_df)
+   cleaned.to_csv("data_clean_20260624.csv", index=False)
+   
+   # Stage 2 input
+   cleaned = pd.read_csv("data_clean_20260624.csv")
+   stat_result = run_test(cleaned)
+   ```
 
-❓ 是否按此流程树执行？可修改任意节点后确认。
-```
+2. **MEMORY handoff** (for single-script chains): Use distinct variable names; validate data shape at each handoff.
+   ```python
+   # Handoff point — always validate
+   assert not data_clean_df.empty, "Stage 1 produced empty output"
+   print(f"[CHAIN] Handoff: Stage 1 → Stage 2 | Shape: {data_clean_df.shape}")
+   stat_result = run_test(data_clean_df)
+   ```
 
-#### Step B：等待用户确认
+3. **CONTRACT handoff** (for distributed/large pipelines): Define a schema file specifying column names, types, and value ranges. Each stage validates input against the contract.
 
-**不得跳过此步骤**。用户可以：
-- 直接确认全部流程
-- 修改某个节点的范围或方式
-- 删除或添加节点
-- 先只执行某个阶段
+**Handoff Validation**: Every chain point MUST print a `[CHAIN]` log confirming:
+- Source stage → destination stage
+- Data shape (rows, columns)
+- Any dropped or filtered rows
+- Whether the data passed validation
 
-#### Step C：逐节点执行，每节点完成后暂停
+**Chain Ordering Rule**: Templates must be executed in this dependency order when combined: DATA_CLEANING → FORMAT_CONVERSION → STAT_TESTING / ML_MODELING / DL_TRAINING / MATH_MODELING → CS_BENCHMARKING / VISUALIZATION → CODE_REVIEW. UNIT_TESTING and TEXT_ANALYSIS can be inserted at any point. Note: DL_TRAINING requires DATA_CLEANING as a prerequisite; CS_BENCHMARKING should run after model implementation but can feed into VISUALIZATION.
 
-每完成一个叶节点，执行**强制验证协议**（见原则 5），然后呈现结果并等待推进确认。
+### Step 3: Generate Code with Safety Guards
 
-### 原则 5：强制验证协议——每步完成后反复检查 + 因果推断
+When generating the code, ALWAYS apply these mandatory safety guards:
 
-每个流程节点完成后，必须执行以下验证流程，**不得跳过**：
+#### Guard 1: Explicit Method Declaration
 
-```
-╔══════════════════════════════════════════════════════╗
-║            强制验证协议 (Forced Verification)         ║
-╠══════════════════════════════════════════════════════╣
-║ ① 结果完整性检查                                      ║
-║    - 所有预期输出是否都已产生？                         ║
-║    - 有无缺失值/异常值/格式错误？                       ║
-╠══════════════════════════════════════════════════════╣
-║ ② 逻辑一致性检查                                      ║
-║    - 结果是否符合已知物理/数学约束？                    ║
-║    - 前后步骤的数值是否自洽？                           ║
-╠══════════════════════════════════════════════════════╣
-║ ③ 因果推断检查                                        ║
-║    - 结果来自代码逻辑，还是数据本身的规律？              ║
-║    - 排除以下混淆因子：数据泄露、过拟合、随机种子敏感性  ║
-║    - 若结果"好得出奇"，优先怀疑 Bug，而非庆祝           ║
-╠══════════════════════════════════════════════════════╣
-║ ④ 代码/方法 Bug 检查（如有代码）                       ║
-║    - 数据划分是否正确（无 future leak）？               ║
-║    - 评估指标计算是否正确？                             ║
-║    - 随机种子是否固定？是否多次运行结果稳定？            ║
-╠══════════════════════════════════════════════════════╣
-║ ⑤ 最终判定                                            ║
-║    PASS: 所有检查通过 → 呈现结果，推进下一节点          ║
-║    FAIL: 发现问题 → 记录问题，返回修复，重新验证         ║
-╚══════════════════════════════════════════════════════╝
-```
+**CRITICAL**: The method declaration MUST be determined dynamically AFTER all assumption checks, then printed immediately before the actual function call. A hardcoded string before method selection is a silent bug — it prints the requested method regardless of what the code actually executes.
 
-验证通过后，用以下格式呈现：
+**CORRECT pattern** (dynamic, after assumption checks):
+```python
+# Step 1: Run assumption checks
+shapiro_stat, shapiro_p = stats.shapiro(group_a)
+levene_stat, levene_p = stats.levene(group_a, group_b)
 
-```
-✅ 节点 [X.X] 验证通过
-━━━━━━━━━━━━━━━━━━━━━━━━
-【结果摘要】...
-【关键发现】...
-【潜在风险】...（即使通过也要列出风险）
-━━━━━━━━━━━━━━━━━━━━━━━━
-⏭️ 是否继续执行节点 [X.X+1]？
+# Step 2: Select method based on assumptions
+if shapiro_p > 0.05 and levene_p > 0.05:
+    method_name = "Welch's t-test (scipy.stats.ttest_ind, equal_var=False)"
+    method_fn = stats.ttest_ind
+    method_kwargs = {"equal_var": False}
+elif shapiro_p > 0.05 and levene_p <= 0.05:
+    method_name = "Student's t-test (scipy.stats.ttest_ind, equal_var=True)"
+    method_fn = stats.ttest_ind
+    method_kwargs = {"equal_var": True}
+else:
+    method_name = "Mann-Whitney U (scipy.stats.mannwhitneyu)"
+    method_fn = stats.mannwhitneyu
+    method_kwargs = {}
+
+# Step 3: Print the DYNAMICALLY determined method IMMEDIATELY before calling it
+print(f"[METHOD] Using: {method_name}")
+print(f"[METHOD] Library: scipy v{scipy.__version__}")
+print(f"[METHOD] Rationale: Shapiro-Wilk p={shapiro_p:.4f}, Levene p={levene_p:.4f}")
+
+# Step 4: Execute
+result = method_fn(group_a, group_b, **method_kwargs)
 ```
 
----
+**BUG pattern to AVOID** (hardcoded before assumption checks):
+```python
+# BUG: Prints "Welch's t-test" regardless of what happens below
+print(f"[METHOD] Using: Welch's t-test (scipy.stats.ttest_ind with equal_var=False)")
 
-## 工作流程总览
-
-```
-用户提出科研任务
-       │
-       ▼
-① 联网搜索——建立真实知识基础
-       │
-       ▼
-② 打破局限——区分铁律 vs 创新空间
-       │
-       ▼
-③ 构建流程树——等待用户确认
-       │
-       ▼
-④ 逐节点执行（每节点：执行 → 强制验证 → 呈现 → 确认继续）
-       │
-       ▼
-⑤ 全流程完成 → 输出研究报告
+# Assumption checks below may lead to a DIFFERENT method being used,
+# but the print above has already lied to the user.
+shapiro_stat, shapiro_p = stats.shapiro(group_a)
+levene_stat, levene_p = stats.levene(group_a, group_b)
+# ... method selection logic that might pick Student's t-test or Mann-Whitney ...
 ```
 
----
+Never let the code silently choose a statistical method or algorithm. The user must see confirmation of what was actually executed — and that confirmation must match reality.
 
-## 辅助资源
+#### Guard 2: No Silent Defaults
 
-- `references/causal-inference-checklist.md` — 因果推断检查清单（深度实验验证用）
-- `references/innovation-framework.md` — 创新思维框架（打破局限用）
-- `references/research-report-template.md` — 研究报告模板
+```python
+# MANDATORY: Raise errors for unspecified parameters instead of using library defaults
+raise ValueError("Parameter [X] not specified. Please explicitly set this value.")
+```
 
----
+If the user hasn't specified a critical parameter (imputation method, kernel function, significance level), the code must ask — not assume.
 
-## 快速触发语
+#### Guard 3: Input Validation Block
 
-以下场景应自动激活本 Skill：
-- "帮我研究 [主题]"、"做一个关于 [X] 的科研"
-- "我想写一篇关于 [X] 的论文"
-- "帮我设计一个实验"
-- "分析这个数据集"、"建一个预测模型"
-- "对比 [方法A] 和 [方法B]"
-- "有没有比 [现有方法] 更好的思路"
+Every generated script must start with a validation section:
 
----
+```python
+# === INPUT VALIDATION ===
+# Check data shape, types, missing values BEFORE any analysis
+assert not df.empty, "Input dataframe is empty"
+assert df.shape[0] > 1, "Need at least 2 rows for analysis"
+# ... domain-specific checks
+print(f"[DATA] Shape: {df.shape}, Missing: {df.isnull().sum().sum()}")
+```
 
-## 禁止行为清单
+#### Guard 4: No AI Self-Testing
 
-- ❌ 未经联网搜索直接引用具体论文标题、作者、年份
-- ❌ 编造任何不确定的数值或结论
-- ❌ 跳过流程树确认直接开始执行
-- ❌ 跳过强制验证协议推进下一步
-- ❌ 结果异常好时不进行 Bug 排查
-- ❌ 用模糊措辞掩盖知识盲区
+Never generate test cases alongside analysis code unless explicitly requested under the `UNIT_TESTING` scenario. When generating tests, they MUST include adversarial edge cases (see `UNIT_TESTING` template).
+
+#### Guard 5: Comprehensive Comments
+
+Every function and non-trivial code block must have comments explaining:
+- **What** it does (the operation)
+- **Why** this method was chosen (the scientific rationale)
+- **What** assumptions it makes (distribution, sample size, etc.)
+
+### Step 4: Run Verification Protocol
+
+After generating code, walk the user through the [risk-checklist.md](risk-checklist.md). At minimum, verify:
+
+1. **Method fidelity**: Does the executed method match what was requested? (cf. Morey's t-test/z-test case)
+2. **No silent data modification**: Does the code alter, impute, or smooth data without explicit instruction?
+3. **Test adversarial inputs**: What happens with empty data, NaN values, single-row input?
+4. **Output sanity check**: Do results match expected ranges from domain knowledge?
+
+#### Blueprint Checkpoint (MANDATORY)
+
+After completing Step 4 verification, PAUSE and ask the user:
+
+> "The analysis is complete and verified. Would you like me to generate a Vibe Blueprint for reproducibility? This will record the exact prompts, parameters, verification results, and known limitations for inclusion in your paper's supplementary materials."
+
+If the user says yes, proceed to Step 5. If the user says no, record that the blueprint was declined and move on. This checkpoint ensures the blueprint is never silently skipped — reproducibility documentation must be a conscious choice.
+
+### Step 5: Document the Vibe Blueprint
+
+For reproducibility (Meyer, 2026), generate a `VIBE_BLUEPRINT.md` file alongside the code. Use the template in [vibe-blueprint-template.md](vibe-blueprint-template.md).
+
+The blueprint records: the exact prompts used, the AI model and version, all parameter choices, verification results, and known limitations.
+
+## Safety Principles
+
+These principles are derived from Nature 653:348-350 and referenced papers:
+
+### Principle 1: "Vibe coding is not a substitute for understanding" (Meyer, 2026)
+
+If the user cannot explain what the generated code does in their own words, they should not use it for publication. Offer to explain any generated code line by line.
+
+### Principle 2: "Wrong in a subtle way you wouldn't necessarily know" (Morey, via Nature)
+
+AI code can produce results that *look* correct but use wrong methods. The most dangerous errors are the ones that pass visual inspection. Always verify the method, not just the output.
+
+### Principle 3: "It can make some pretty hilarious tests for itself where it just always passes" (Meyer, via Nature)
+
+AI-generated self-tests are unreliable. They tend to verify the simplest path. Researchers must design their own validation tests.
+
+### Principle 4: "Vibe debugging is chaos" (Pimenova et al., 2025)
+
+Keep generated code modular and short. A 400-line file that balloons to 3000 lines becomes unreadable by both human and AI. Split into small, single-responsibility functions.
+
+### Principle 5: "Code should be published alongside the research paper" (Nature consensus)
+
+All generated code should be written as if it will be publicly reviewed. Follow PEP-8, use type hints, write docstrings, and structure for readability.
+
+### Principle 6: "GPU non-determinism must be explicitly controlled" (experience from DL research)
+
+PyTorch and TensorFlow produce different results on every GPU run unless seeds are exhaustively set. Floating-point parallel reduction order varies across CUDA executions. Without `torch.backends.cudnn.deterministic = True`, cuDNN selects different convolution algorithms per run. A paper that reports "70.3% accuracy" from a single run without seed control cannot be reproduced — not by reviewers, not by yourself six months later.
+
+### Principle 7: "Train/eval mode mismatch is the most common silent bug in DL code" (experience from DL research)
+
+Forgetting `model.eval()` before validation causes batch normalization layers to use running statistics instead of batch statistics, silently contaminating validation results. Forgetting `model.train()` after validation keeps dropout active during subsequent training steps. These bugs produce results that look plausible but are wrong — the most dangerous category of error for publication.
+
+## Language-Specific Defaults
+
+| Language | Formatting | Type Hints | Docstring Style | Testing Framework |
+|----------|-----------|------------|-----------------|-------------------|
+| Python | PEP-8 / ruff | Required | Google-style | pytest |
+| R | tidyverse style | roxygen2 types | roxygen2 | testthat |
+| MATLAB | MATLAB Lint | Argument blocks | Help text | unittest (built-in) |
+| Julia | BlueStyle.jl | Required | Docstrings | Test.jl |
+
+## Quick Commands
+
+Users can trigger specific scenarios with shorthand:
+
+- **"Clean this data"** → `DATA_CLEANING` template
+- **"Run a t-test"** → `STAT_TESTING` template (Welch's t-test by default)
+- **"Make a figure"** → `VISUALIZATION` template (colorblind-safe palette by default)
+- **"Convert formats"** → `FORMAT_CONVERSION` template
+- **"Train a model"** → `ML_MODELING` template (5-fold CV by default)
+- **"Write tests"** → `UNIT_TESTING` template (adversarial cases included)
+- **"Simulate"** → `MATH_MODELING` template
+- **"Extract text"** → `TEXT_ANALYSIS` template
+- **"Refactor for paper"** → `CODE_REVIEW` template
+- **"Train a neural network"** → `DL_TRAINING` template (full reproducibility suite by default)
+- **"Benchmark algorithms"** → `CS_BENCHMARKING` template (multi-scale + correctness verification)
+- **"Vibe blueprint"** → Generate reproducibility documentation
+
+## Common Pipelines
+
+Reference for common multi-scenario workflows. Each pipeline lists the templates in execution order and the recommended handoff pattern.
+
+| Pipeline | Templates (in order) | Handoff Pattern | Notes |
+|----------|---------------------|-----------------|-------|
+| **Standard Analysis** | DATA_CLEANING → STAT_TESTING → VISUALIZATION | FILE | Most common pipeline; clean data, test hypotheses, visualize results |
+| **ML Pipeline** | DATA_CLEANING → ML_MODELING → VISUALIZATION | FILE | Feature engineering in DATA_CLEANING; use stratified CV in ML_MODELING |
+| **Simulation Study** | MATH_MODELING → VISUALIZATION → STAT_TESTING | MEMORY | Run simulations, plot trajectories, then test parameter sensitivity |
+| **Publication Prep** | CODE_REVIEW → VISUALIZATION → (Blueprint) | CONTRACT | Refactor code for journal submission, regenerate figures to spec, document |
+| **Literature Mining** | TEXT_ANALYSIS → STAT_TESTING → VISUALIZATION | FILE | Extract data from papers, run meta-analysis, visualize findings |
+| **DL Research** | DATA_CLEANING → DL_TRAINING → CS_BENCHMARKING → VISUALIZATION | FILE | Clean data, train model with explicit seeds, benchmark performance, plot loss/accuracy curves |
+| **Algorithm Study** | CS_BENCHMARKING → STAT_TESTING → VISUALIZATION | FILE | Benchmark multiple algorithms, test performance differences statistically, visualize scaling behavior |
+
+When in doubt, use FILE handoff — it provides the strongest reproducibility guarantee.
+
+## References
+
+- Jones, N. "How to vibe code in science: early adopters share their tips." *Nature* 653, 348-350 (2026). DOI: [10.1038/d41586-026-01477-w](https://doi.org/10.1038/d41586-026-01477-w)
+- Meyer, J. G. "Vibe Coding Omics Data Analysis Applications." *J. Proteome Res.* 25, 1191-1197 (2026). DOI: [10.1021/acs.jproteome.5c00984](https://doi.org/10.1021/acs.jproteome.5c00984)
+- Ziemann, M., Eren, Y. & El-Osta, A. "Gene name errors are widespread in the scientific literature." *Genome Biol.* 17, 177 (2016). DOI: [10.1186/s13059-016-1044-7](https://doi.org/10.1186/s13059-016-1044-7)
+- Pimenova, V. et al. "Good Vibrations? A Qualitative Study of Co-Creation, Communication, Flow, and Trust in Vibe Coding." *arXiv:2509.12491* (2025). DOI: [10.48550/arXiv.2509.12491](https://doi.org/10.48550/arXiv.2509.12491)
+
+## Additional Resources
+
+- For detailed prompt templates (11 scientific scenarios), see [prompt-templates.md](prompt-templates.md)
+- For the full risk verification checklist, see [risk-checklist.md](risk-checklist.md)
+- For the Vibe Blueprint reproducibility template, see [vibe-blueprint-template.md](vibe-blueprint-template.md)
+- For a complete end-to-end example demonstrating all safety guards, see [examples/](examples/)
