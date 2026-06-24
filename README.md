@@ -5,14 +5,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)]()
 
-Compatible with **Cursor**, **Claude Code**, **Windsurf**, **Copilot**, **ChatGPT**, and any AI coding assistant.
+Works with **Cursor**, **Claude Code**, **Windsurf**, **Copilot**, **ChatGPT**, and any AI coding assistant.
 
 ## Quick Start
 
 ```bash
-# Drop the rules file into your project root — your AI tool picks it up automatically
-cp .cursorrules /path/to/your/project/
-# or: cp CLAUDE.md /path/to/your/project/
+# One command — copy the rules file into your project
+cp SKILL.md /path/to/your/project/.cursorrules
+# or: cp SKILL.md /path/to/your/project/CLAUDE.md
 ```
 
 Then tell your AI assistant:
@@ -26,17 +26,16 @@ Clean my proteomics dataset (data.csv):
 
 The framework will: output an analysis plan for your confirmation → generate code with safety guards → run verification → produce a reproducibility blueprint.
 
-## What's Inside
+## File Structure
 
-| File | Purpose |
-|------|---------|
-| `SKILL.md` | Core workflow, 6 safety guards, 8 principles |
-| `CLAUDE.md` | Ready-to-use for Claude Code |
-| `.cursorrules` | Ready-to-use for Cursor |
-| `prompt-templates.md` | 11 scientific scenario templates + prompt engineering guide |
-| `risk-checklist.md` | Pre/post-execution verification checklist |
-| `vibe-blueprint-template.md` | Reproducibility documentation template |
-| `examples/` | End-to-end example with all safety guards |
+```
+├── SKILL.md                     # Core: workflow, 6 guards, 8 principles
+├── prompt-templates.md          # 11 scenario templates + prompt guide
+├── risk-checklist.md            # Verification checklist
+├── vibe-blueprint-template.md   # Reproducibility template
+├── examples/                    # End-to-end example
+└── LICENSE                      # MIT
+```
 
 ## Why This Exists
 
