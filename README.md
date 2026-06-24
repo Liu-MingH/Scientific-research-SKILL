@@ -1,10 +1,11 @@
 # Scientific Research SKILL — Science Vibe Coding
 
-A structured QoderWork skill for generating rigorous, publication-ready scientific code through AI-assisted natural language prompts. Covers the full research lifecycle: data cleaning, statistical testing, visualization, ML/DL modeling, CS benchmarking, and code review.
+A structured skill/framework for generating rigorous, publication-ready scientific code through AI-assisted natural language prompts. Works with Claude Code, Cursor, ChatGPT, QoderWork, and any AI coding assistant. Covers the full research lifecycle: data cleaning, statistical testing, visualization, ML/DL modeling, CS benchmarking, and code review.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)]()
 [![Templates](https://img.shields.io/badge/templates-11-green.svg)]()
+[![Platform](https://img.shields.io/badge/platform-Claude%20%7C%20Cursor%20%7C%20ChatGPT%20%7C%20QoderWork-lightgrey.svg)]()
 
 ## What Is This?
 
@@ -30,9 +31,13 @@ This framework prevents these failure modes through structured prompts, mandator
 ```
 science-vibecoding/
 ├── SKILL.md                     # Core workflow & safety principles (6 guards, 8 principles)
+├── CLAUDE.md                    # Ready-to-use for Claude Code / Claude Desktop
+├── .cursorrules                 # Ready-to-use for Cursor
+├── .windsurfrules               # Ready-to-use for Windsurf / Codeium
 ├── prompt-templates.md          # 11 prompt templates + prompt engineering guide
 ├── risk-checklist.md            # Pre/post-execution verification (incl. anti-sycophancy & maintainability)
 ├── vibe-blueprint-template.md   # Reproducibility documentation
+├── Scientific-research-SKILL.skill  # QoderWork .skill package
 ├── examples/                    # End-to-end example with all safety guards
 ├── README.md                    # This file
 └── LICENSE                      # MIT License
@@ -71,15 +76,41 @@ Based on Meyer's (2026) reproducibility framework, every session generates a `VI
 
 ## Installation
 
-### As a QoderWork Skill
+This framework works with any AI coding assistant. Choose the method that fits your tool:
 
-Copy the `science-vibecoding` directory to your skills folder:
+### Claude Code / Claude Desktop
+
+Create a `CLAUDE.md` file in your project root (or `~/.claude/CLAUDE.md` for global use) and paste the contents of `SKILL.md` into it. Claude will automatically read and follow the framework.
 
 ```bash
-# QoderWork / QoderWork CN — install via .skill file
-# Download Scientific-research-SKILL.skill from Releases, then drag-and-drop into QoderWork
+# Project-level
+cp SKILL.md /path/to/your/project/CLAUDE.md
 
-# Or manual install:
+# Or global
+cp SKILL.md ~/.claude/CLAUDE.md
+```
+
+### Cursor
+
+Create a `.cursorrules` file in your project root and paste the contents of `SKILL.md` into it. Cursor will automatically apply the rules.
+
+```bash
+cp SKILL.md /path/to/your/project/.cursorrules
+```
+
+### Windsurf / Codeium
+
+Create a `.windsurfrules` file in your project root:
+
+```bash
+cp SKILL.md /path/to/your/project/.windsurfrules
+```
+
+### QoderWork / QoderWork CN
+
+Install via the `.skill` file (drag-and-drop) or manual copy:
+
+```bash
 # macOS / Linux
 cp -r science-vibecoding ~/.qoderwork/skills/
 
@@ -87,11 +118,32 @@ cp -r science-vibecoding ~/.qoderwork/skills/
 xcopy science-vibecoding %USERPROFILE%\.qoderworkcn\skills\science-vibecoding /E /I
 ```
 
-The skill will be automatically discovered when you ask for scientific code generation, data analysis, statistical testing, or research code preparation.
+### ChatGPT / Gemini / Any Chat-Based AI
 
-### Standalone Use
+No installation needed. At the start of your conversation, paste this:
 
-You can also use the prompt templates directly with any AI coding assistant (ChatGPT, Claude, Copilot, Cursor, etc.). Just copy the relevant template from `prompt-templates.md`, fill in the `[bracketed placeholders]`, and paste it as your prompt.
+```
+Please follow the Science Vibe Coding framework for all code generation in this session.
+
+[Paste the contents of SKILL.md here]
+
+Now, my task is: [describe your task]
+```
+
+### Standalone Use (Copy-Paste)
+
+You can also use individual prompt templates directly. Copy the relevant template from `prompt-templates.md`, fill in the `[bracketed placeholders]`, and paste it as your prompt to any AI assistant.
+
+### What Gets Loaded
+
+| Platform | File | Auto-loads? |
+|----------|------|-------------|
+| Claude Code | `CLAUDE.md` | ✅ Yes |
+| Cursor | `.cursorrules` | ✅ Yes |
+| Windsurf | `.windsurfrules` | ✅ Yes |
+| QoderWork | `.skill` file | ✅ Yes |
+| ChatGPT / Gemini | Paste in chat | ❌ Manual |
+| Any AI assistant | Copy templates | ❌ Manual |
 
 ## Quick Start
 
