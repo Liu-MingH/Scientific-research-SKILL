@@ -10,9 +10,16 @@ Works with **Cursor**, **Claude Code**, **Windsurf**, **Copilot**, **ChatGPT**, 
 ## Quick Start
 
 ```bash
-# One command — copy the rules file into your project
-cp SKILL.md /path/to/your/project/.cursorrules
-# or: cp SKILL.md /path/to/your/project/CLAUDE.md
+# One-line install — auto-detects your AI tool
+curl -sL https://raw.githubusercontent.com/Liu-MingH/Scientific-research-SKILL/main/install.sh | bash
+```
+
+Or manually:
+
+```bash
+cp SKILL.md .cursorrules     # Cursor
+cp SKILL.md CLAUDE.md        # Claude Code
+cp SKILL.md .windsurfrules   # Windsurf
 ```
 
 Then tell your AI assistant:
@@ -33,6 +40,7 @@ The framework will: output an analysis plan for your confirmation → generate c
 ├── prompt-templates.md          # 11 scenario templates + prompt guide
 ├── risk-checklist.md            # Verification checklist
 ├── vibe-blueprint-template.md   # Reproducibility template
+├── install.sh                   # Universal installer
 ├── examples/                    # End-to-end example
 └── LICENSE                      # MIT
 ```
