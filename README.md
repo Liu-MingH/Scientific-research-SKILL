@@ -11,7 +11,7 @@ Works with **Cursor**, **Claude Code**, **Windsurf**, **Copilot**, **ChatGPT**, 
 
 ```bash
 # One-line install — auto-detects your AI tool
-curl -sL https://raw.githubusercontent.com/Liu-MingH/Scientific-research-SKILL/main/install.sh | bash
+curl -sLk https://raw.githubusercontent.com/Liu-MingH/Scientific-research-SKILL/main/install.sh | bash
 ```
 
 Or manually:
